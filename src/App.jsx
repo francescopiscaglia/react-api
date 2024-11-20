@@ -44,12 +44,7 @@ function App() {
   // handle form submit
   function handleFormSubmit(e) {
     e.preventDefault();
-  };
 
-
-  // handle form submit
-  function handleFormSubmit(e) {
-    e.preventDefault();
 
     // Creo un nuovo oggetto con un nuovo id e i dati del form
     const newItem = {
@@ -57,6 +52,9 @@ function App() {
       ...formData,
       tags: checkedValue, // Aggiungo i tag selezionati
     };
+
+    console.log(newItem);
+
 
     // Aggiorno l'array dei post con il nuovo oggetto
     setPosts([newItem, ...posts]);
@@ -91,7 +89,7 @@ function App() {
         return prev.filter(tag => tag !== value);
       }
     });
-  }
+  };
 
 
 
@@ -243,7 +241,11 @@ function App() {
                 <div className="col" key={post.id}>
 
                   <div className="card rounded-3" style={{ minHeight: "450px" }}>
-                    <img src={apiUrl + post.image} alt="" className='card-img-top' />
+                    <img
+                      src={post.image.startsWith("http") ? post.image : `${apiUrl}${post.image}`} //se l'url inizia con http non aggiungere nulla, altrimenti aggiungi l'url dell'api
+                      alt=""
+                      className='card-img-top'
+                    />
 
                     <div className="card-body">
 
