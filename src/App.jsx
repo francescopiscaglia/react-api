@@ -53,15 +53,12 @@ function App() {
       tags: checkedValue, // Aggiungo i tag selezionati
     };
 
-    console.log(newItem);
-
-
     // Aggiorno l'array dei post con il nuovo oggetto
     setPosts([newItem, ...posts]);
 
     // Resetto il form e i tag selezionati
     setFormData(initialFormData);
-    setCheckedValue([]); // Resetta lo stato dei tag selezionati
+    setCheckedValue(initialFormData.tags); // Resetta lo stato dei tag selezionati
   };
 
 
@@ -211,6 +208,7 @@ function App() {
                       id=""
                       name='tags'
                       onChange={handleCheckForm}
+                      checked={checkedValue.includes(tag)} // controlla se il tag è presente nell'array checkedValue
                     />
                     <label className="form-check-label" htmlFor="flexCheckDefault">
                       {tag}
