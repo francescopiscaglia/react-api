@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 import allPosts from "./db/db.js"
 
@@ -22,6 +22,19 @@ function App() {
   const [posts, setPosts] = useState(allPosts);
   const [formData, setFormData] = useState(initialFormData);
   const [checkedValue, setCheckedValue] = useState([]);
+
+  // useEffect
+  useEffect(() => fetchData(apiUrl, endpointApi), []);
+
+
+  // fetch
+  function fetchData(url, endpoint) {
+    fetch(`${url}${endpoint}`)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+      });
+  };
 
   // handle form submit
   function handleFormSubmit(e) {
