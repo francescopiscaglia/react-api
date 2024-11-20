@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 
+// i dati iniziali del formo
 const initialFormData = {
   title: "",
   image: "",
@@ -9,6 +10,9 @@ const initialFormData = {
   tags: [],
   isPublished: true,
 };
+
+// i tag disponibili
+const avaibleTags = ["Dolci", "Torte", "Ricette vegetariane", "Ricette al forno", "Antipasti", "Primi piatti", "Ricette veloci"]
 
 // API
 const apiUrl = "http://localhost:3001";
@@ -33,7 +37,13 @@ function App() {
       .then(response => response.json())
       .then(data => {
         setPosts(data.data) // Aggiorna lo stato con i dati ottenuti dalla chiamata API
-      });
+      })
+      .catch(error => console.error('Errore durante il fetch dei dati:', error));
+  };
+
+  // handle form submit
+  function handleFormSubmit(e) {
+    e.preventDefault();
   };
 
 
@@ -192,26 +202,23 @@ function App() {
             <div className="mb-3">
               <label htmlFor="tags" className="form-label">Tags</label>
 
+              {avaibleTags.map((tag, index) => {
+                return (
 
-              {posts.map(post => {
-                return post.tags.map((tag, index) => {
-                  return (
-
-                    <div className="form-check" key={index}>
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        value={tag}
-                        id=""
-                        name='tags'
-                        onChange={handleCheckForm}
-                      />
-                      <label className="form-check-label" htmlFor="flexCheckDefault">
-                        {tag}
-                      </label>
-                    </div>
-                  )
-                })
+                  <div className="form-check" key={index}>
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      value={tag}
+                      id=""
+                      name='tags'
+                      onChange={handleCheckForm}
+                    />
+                    <label className="form-check-label" htmlFor="flexCheckDefault">
+                      {tag}
+                    </label>
+                  </div>
+                )
               })}
             </div>
 
