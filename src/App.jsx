@@ -5,7 +5,7 @@ const initialFormData = {
   title: "",
   image: "",
   content: "",
-  category: "",
+  slug: "",
   tags: [],
   isPublished: true,
 };
@@ -36,6 +36,7 @@ function App() {
       });
   };
 
+
   // handle form submit
   function handleFormSubmit(e) {
     e.preventDefault();
@@ -54,7 +55,6 @@ function App() {
     setFormData(initialFormData);
     setCheckedValue([]); // Resetta lo stato dei tag selezionati
   };
-
 
 
   // handle input change
@@ -123,7 +123,7 @@ function App() {
                 name="title"
                 id="title"
                 aria-describedby="titleHelpers"
-                placeholder="Phyton for beginners"
+                placeholder="Dolce fatto in casa"
                 value={formData.title}
                 onChange={handleFormField}
                 required
@@ -157,7 +157,7 @@ function App() {
                 name="content"
                 id="content"
                 aria-describedby="contentHelpers"
-                placeholder="Add your content"
+                placeholder="Add your post content"
                 value={formData.content}
                 onChange={handleFormField}
               />
@@ -166,20 +166,24 @@ function App() {
 
             {/* category */}
             <div className="mb-3">
-              <label htmlFor="category" className="form-label">Category</label>
+              <label htmlFor="slug" className="form-label">Category</label>
               <select
                 className="form-select"
                 aria-label="Default select example"
-                name="category"
-                id="category"
+                name="slug"
+                id="slug"
                 placeholder="Select a category"
-                value={formData.category}
+                value={formData.slug}
                 onChange={handleFormField}
               >
                 <option value="">Select a category</option>
-                <option value="Programmazione" >Programmazione</option>
-                <option value="Frontend" >Frontend</option>
-                <option value="Backend" >Backend</option>
+                <option value="Dolci" >Dolci</option>
+                <option value="Torte" >Torte</option>
+                <option value="Ricette vegetariane" >Ricette vegetariane</option>
+                <option value="Ricette al forno" >Ricette al forno</option>
+                <option value="Antipasti" >Antipasti</option>
+                <option value="Primi piatti" >Primi piatti</option>
+                <option value="Ricette veloci" >Ricette veloci</option>
               </select>
               <small id="imageHelper" className="form-text text-muted">Select the category</small>
             </div>
@@ -235,16 +239,21 @@ function App() {
                     <img src={apiUrl + post.image} alt="" className='card-img-top' />
 
                     <div className="card-body">
-                      <h4 className='card-title'>{post.title}</h4>
-                      <p className='card-text'>{post.content}.</p>
-                      <p className='card-text'>{post.category}</p>
 
+                      {/* title */}
+                      <h4 className='card-title'>{post.title}</h4>
+                      {/* content */}
+                      <p className='card-text'>{post.content}.</p>
+                      {/* category */}
+                      <p className='card-subtitle mb-2 text-body-secondary'>{post.slug.charAt(0).toUpperCase() + post.slug.slice(1)}</p>
+
+                      {/* tags */}
                       {post.tags.map((tag, index) => {
                         return (
                           <a
                             key={index}
                             href=''
-                            className='me-2'
+                            className='card-link me-2'
                           >{tag}</a>
                         )
                       })}
