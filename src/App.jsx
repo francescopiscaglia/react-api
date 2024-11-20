@@ -57,7 +57,7 @@ function App() {
 
     // Resetto il form e i tag selezionati
     setFormData(initialFormData);
-    setCheckedValue(initialFormData.tags); // Resetta lo stato dei tag selezionati
+    setCheckedValue([]); // Resetta lo stato dei tag selezionati
 
     // invio i dati al server
     fetch(`${apiUrl}${endpointApi}`, {
@@ -96,6 +96,35 @@ function App() {
     });
   };
 
+  // delete a task
+  function handleDeleteClick(e) {
+
+    // seleziono il giusto post tramite slug
+    const deletePost = String(e.target.getAttribute("data-index"));
+    console.log(deletePost);
+
+    console.log(`${apiUrl}${endpointApi}/${deletePost}`);
+
+
+
+    // aggiorno lo state facendo la chiamata AJAX
+    fetch(`${apiUrl}${endpointApi}/${deletePost}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json" // specifico che il corpo della richiesta è in formato JSON
+      }
+    })
+      .then(resp => resp.json())
+      .then(() => {
+
+        // filtrare per slug
+        const newPosts = posts.filter(post => post.slug != deletePost);
+
+        setPosts(newPosts);
+      })
+      .catch(error => console.error("Error:", error)
+      )
+  };
 
 
 
@@ -272,6 +301,15 @@ function App() {
                           >{tag}</a>
                         )
                       })}
+
+                      {/* button */}
+                      <div className="call-to-action my-2">
+                        <button
+                          className='btn btn-outline-danger'
+                          onClick={handleDeleteClick}
+                          data-index={post.slug}
+                        ><i className="bi bi-trash3"></i></button>
+                      </div>
                     </div>
                   </div>
                 </div>
