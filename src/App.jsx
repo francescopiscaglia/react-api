@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import './App.css'
-import allPosts from "./db/db.js"
 
 const initialFormData = {
   title: "",
@@ -19,20 +18,21 @@ const endpointApi = "/posts";
 function App() {
 
   // logic
-  const [posts, setPosts] = useState(allPosts);
+  const [posts, setPosts] = useState([]);
   const [formData, setFormData] = useState(initialFormData);
   const [checkedValue, setCheckedValue] = useState([]);
 
-  // useEffect
+
+  // useEffect per eseguire il fetch dei dati quando il componente viene montato
   useEffect(() => fetchData(apiUrl, endpointApi), []);
 
 
-  // fetch
+  // fetch 
   function fetchData(url, endpoint) {
     fetch(`${url}${endpoint}`)
       .then(response => response.json())
       .then(data => {
-        console.log(data);
+        setPosts(data.data) // Aggiorna lo stato con i dati ottenuti dalla chiamata API
       });
   };
 
@@ -224,36 +224,38 @@ function App() {
 
 
         {/* posts */}
-        <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div className="row row-cols-1 row-cols-md-2 row-cols-xlg-3 g-4">
 
-          {posts.map(post => {
-            return (
-              <div className="col" key={post.id}>
+          {posts ?
+            posts.map(post => {
+              return (
+                <div className="col" key={post.id}>
 
-                <div className="card rounded-3" style={{ minHeight: "450px" }}>
-                  <div className="card-img">
-                    <img src={post.image} alt="" className='object-fit-cover rounded-top-3' />
-                  </div>
+                  <div className="card rounded-3" style={{ minHeight: "450px" }}>
+                    <img src={apiUrl + post.image} alt="" className='card-img-top' />
 
-                  <div className="card-body">
-                    <h4>{post.title}</h4>
-                    <p>{post.content}.</p>
-                    <p>{post.category}</p>
+                    <div className="card-body">
+                      <h4 className='card-title'>{post.title}</h4>
+                      <p className='card-text'>{post.content}.</p>
+                      <p className='card-text'>{post.category}</p>
 
-                    {post.tags.map((tag, index) => {
-                      return (
-                        <a
-                          key={index}
-                          href=''
-                          className='me-2'
-                        >{tag}</a>
-                      )
-                    })}
+                      {post.tags.map((tag, index) => {
+                        return (
+                          <a
+                            key={index}
+                            href=''
+                            className='me-2'
+                          >{tag}</a>
+                        )
+                      })}
+                    </div>
                   </div>
                 </div>
-              </div>
-            )
-          })}
+              )
+            }) :
+
+            <p>Data non avaible</p>
+          }
         </div>
       </div>
     </>
