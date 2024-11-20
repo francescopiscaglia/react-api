@@ -45,7 +45,6 @@ function App() {
   function handleFormSubmit(e) {
     e.preventDefault();
 
-
     // Creo un nuovo oggetto con un nuovo id e i dati del form
     const newItem = {
       id: Date.now(),
@@ -59,6 +58,15 @@ function App() {
     // Resetto il form e i tag selezionati
     setFormData(initialFormData);
     setCheckedValue(initialFormData.tags); // Resetta lo stato dei tag selezionati
+
+    // invio i dati al server
+    fetch(`${apiUrl}${endpointApi}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json" // specifico che il corpo della richiesta è in formato JSON
+      },
+      body: JSON.stringify(newItem) // converto l'oggetto in una stringa JSON
+    })
   };
 
 
