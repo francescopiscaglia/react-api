@@ -11,6 +11,10 @@ const initialFormData = {
   isPublished: true,
 };
 
+// API
+const apiUrl = "http://localhost:3001";
+const endpointApi = "/posts";
+
 
 function App() {
 
