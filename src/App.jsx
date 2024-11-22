@@ -101,12 +101,20 @@ function App() {
   function handleDeleteClick(e) {
 
     // seleziono il giusto post tramite slug
-    const deletePost = String(e.target.closest("button").getAttribute("data-index"));
-    console.log(deletePost);
-
+    const deleteTitle = String(e.target.closest("button").getAttribute("data-index"));
 
     // aggiorno lo state facendo la chiamata AJAX
+    fetch(`${apiUrl}${endpointApi}/${deleteTitle}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    })
+      .then(response => response.json())
+      .then(response => {
+        // console.log(response.data);
+        const newPosts = response.data;
 
+        setPosts(newPosts)
+      })
   };
 
 
@@ -290,7 +298,7 @@ function App() {
                         <button
                           className='btn btn-outline-danger'
                           onClick={handleDeleteClick}
-                          data-index={post.slug}
+                          data-index={post.title}
                         ><i className="bi bi-trash3"></i></button>
                       </div>
                     </div>
