@@ -101,23 +101,12 @@ function App() {
   function handleDeleteClick(e) {
 
     // seleziono il giusto post tramite slug
-    const deletePost = String(e.target.getAttribute("data-index"));
+    const deletePost = String(e.target.closest("button").getAttribute("data-index"));
+    console.log(deletePost);
+
 
     // aggiorno lo state facendo la chiamata AJAX
-    fetch(`${apiUrl}${endpointApi}/${deletePost}`, {
-      method: "DELETE",
-    })
-      .then(resp => resp.json())
-      .then(() => {
 
-        // filtrare per slug
-        const newPosts = posts.filter(post => post.slug != deletePost);
-
-        // Aggiorna lo stato con i dati ottenuti dalla chiamata API
-        setPosts(newPosts);
-      })
-      .catch(error => console.error("Error:", error)
-      )
   };
 
 
